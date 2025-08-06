@@ -1,4 +1,3 @@
-
 from model.internal import AppInfo
 
 from fastapi import APIRouter
@@ -19,6 +18,6 @@ get_session_deps()
     response_model=AppInfo,
 )
 def get_health() -> AppInfo:
-     return AppInfo.model_validate(
-            {"version": get_version(), "details": {"name": "kmpos"}}
-        )
+    return AppInfo.model_validate(
+        {"version": get_version(), "details": {"name": "kmpos"}}
+    )

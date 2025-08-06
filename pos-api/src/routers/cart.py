@@ -1,5 +1,3 @@
-
-
 from typing import Annotated
 import uuid
 from cachetools import TTLCache
@@ -15,18 +13,21 @@ router = APIRouter(prefix="/cart", tags=["cart"])
 cache = TTLCache(maxsize=1024, ttl=600)
 
 
-
 @router.get(
-   "/{cart_id}",
+    "/{cart_id}",
     summary="Get a cart by ID",
     response_model=Cart,
 )
-def get_cart(cart_id: str,) -> Cart:
-     
-     if cart_id in cache:
-         return cache[cart_id]
-     raise PosException(name="Cart Not Found", message=f"Cart with id '{cart_id}' not found", code=404)
-     
+def get_cart(
+    cart_id: str,
+) -> Cart:
+
+    if cart_id in cache:
+        return cache[cart_id]
+    raise PosException(
+        name="Cart Not Found", message=f"Cart with id '{cart_id}' not found", code=404
+    )
+
 
 @router.put(
     "/{cart_id}",
@@ -36,7 +37,7 @@ def get_cart(cart_id: str,) -> Cart:
 def update_cart(cart_id: str, cart: Cart, request: Request) -> Cart:
     # Here you would typically update the cart in a database
     cart.id = cart_id
-    cart.ip  = request.client.host   
+    cart.ip = request.client.host
     cache[cart_id] = cart
     return cart
 
