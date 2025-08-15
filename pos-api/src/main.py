@@ -1,10 +1,9 @@
 from fastapi import FastAPI, Request
 from fastapi.concurrency import asynccontextmanager
 from fastapi.responses import JSONResponse
-from sqlmodel import create_engine
 from core.http import PosException
 from persistence import create_db_and_tables, get_session_deps
-from routers import cart, internal
+from routers import article, internal, order, table, category, basket
 
 
 @asynccontextmanager
@@ -17,7 +16,12 @@ async def lifespan(app: FastAPI):
 def app() -> FastAPI:
     app = FastAPI(lifespan=lifespan)
     app.include_router(internal.router)
-    app.include_router(cart.router)
+    app.include_router(basket.router)
+    app.include_router(order.router)
+    app.include_router(category.router)
+    app.include_router(article.router)
+    app.include_router(table.router)
+
 
     @app.exception_handler(PosException)
     async def unicorn_exception_handler(

@@ -1,4 +1,4 @@
-from model.internal import AppInfo
+from rest.internal import AppInfo
 
 from fastapi import APIRouter
 
